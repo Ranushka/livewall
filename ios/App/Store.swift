@@ -20,7 +20,7 @@ final class Store: ObservableObject {
 
     init() {
         updates = Task { [weak self] in
-            for await result in Transaction.updates { await self?.handle(result) }
+            for await result in StoreKit.Transaction.updates { await self?.handle(result) }
         }
     }
     deinit { updates?.cancel() }
@@ -54,7 +54,7 @@ final class Store: ObservableObject {
         if !isUnlocked { message = "No previous purchase found." }
     }
 
-    private func handle(_ result: VerificationResult<Transaction>) async {
+    private func handle(_ result: VerificationResult<StoreKit.Transaction>) async {
         guard case .verified(let tx) = result else { message = "Purchase couldn't be verified."; return }
         await tx.finish()
         await refreshEntitlement()
@@ -62,7 +62,7 @@ final class Store: ObservableObject {
 
     private func refreshEntitlement() async {
         var unlocked = false
-        for await result in Transaction.currentEntitlements {
+        for await result in StoreKit.Transaction.currentEntitlements {
             if case .verified(let tx) = result, tx.productID == Self.productID, tx.revocationDate == nil { unlocked = true }
         }
         isUnlocked = unlocked
