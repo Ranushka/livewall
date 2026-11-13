@@ -100,3 +100,16 @@ describe("unpair and delete", () => {
     expect((await call("GET", "/me", b)).body.paired).toBe(false);
   });
 });
+
+describe("block and report", () => {
+  it("blocking unpairs, stores a report, and prevents re-pairing", async () => {
+    const { a, b } = await pairedUsers();
+    await call("POST", "/notes", b, { text: "rude" });
+    expect((await call("POST", "/block", a, { report: true, reason: "abuse" })).status).toBe(200);
+    expect((await call("GET", "/me", b)).body.paired).toBe(false);
+    const row = await (env as any).DB.prepare("SELECT last_notes FROM reports ORDER BY created_at DESC LIMIT 1").first();
+    expect(JSON.parse(row.last_notes)).toEqual(["rude"]);
+    const { body } = await call("POST", "/pair/code", b);
+    expect((await call("POST", "/pair/join", a, { code: body.code })).status).toBe(404);
+  });
+});

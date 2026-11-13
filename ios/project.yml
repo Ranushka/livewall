@@ -10,7 +10,10 @@ targets:
   LiveWall:
     type: application
     platform: iOS
-    sources: [App, Shared]
+    sources:
+      - path: App
+        excludes: ["LiveWall.storekit"]
+      - Shared
     settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.example.livewall } }
     entitlements:
       path: App/LiveWall.entitlements
@@ -56,3 +59,9 @@ targets:
         NSExtension:
           NSExtensionPointIdentifier: com.apple.usernotifications.service
           NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).NotificationService
+schemes:
+  LiveWall:
+    build:
+      targets: { LiveWall: all }
+    run:
+      storeKitConfiguration: App/LiveWall.storekit

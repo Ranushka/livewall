@@ -20,12 +20,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
 struct LiveWallApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
     @StateObject private var model = AppModel.shared
+    @StateObject private var store = Store()
     @Environment(\.scenePhase) private var phase
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environmentObject(model)
+                .environmentObject(store)
+                .task { await store.start() }
                 .task { await model.start() }
                 .onChange(of: phase) { _, p in if p == .active { Task { await model.refresh() } } }
         }

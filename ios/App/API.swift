@@ -45,6 +45,7 @@ struct API {
     func setPushToken(_ token: String) async throws { _ = try await send("PUT", "me/push-token", body: ["token": token], as: Empty.self) }
     func createCode() async throws -> PairCode { try await send("POST", "pair/code", as: PairCode.self) }
     func join(code: String) async throws { _ = try await send("POST", "pair/join", body: ["code": code], as: Empty.self) }
+    func block(report: Bool, reason: String = "") async throws { _ = try await send("POST", "block", body: ["report": report, "reason": reason], as: Empty.self) }
     func unpair() async throws { _ = try await send("DELETE", "pair", as: Empty.self) }
     func deleteAccount() async throws { _ = try await send("DELETE", "me", as: Empty.self) }
     func sendNote(_ text: String) async throws { _ = try await send("POST", "notes", body: ["text": text], as: Empty.self) }

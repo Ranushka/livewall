@@ -6,6 +6,7 @@ struct PartnerView: View {
     @State private var joinCode = ""
     @State private var confirmUnpair = false
     @State private var confirmDelete = false
+    @State private var confirmBlock = false
 
     var body: some View {
         NavigationStack {
@@ -14,7 +15,11 @@ struct PartnerView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Menu {
-                            if model.paired { Button("Unpair", role: .destructive) { confirmUnpair = true } }
+                            if model.paired {
+                                Button("Unpair", role: .destructive) { confirmUnpair = true }
+                                Button("Block…", role: .destructive) { confirmBlock = true }
+                            }
+                            Link("Support & privacy", destination: URL(string: "https://YOUR-SITE.example/support")!)
                             Button("Delete my data", role: .destructive) { confirmDelete = true }
                         } label: { Image(systemName: "ellipsis.circle") }
                     }
@@ -23,6 +28,11 @@ struct PartnerView: View {
                     Button("Unpair", role: .destructive) { Task { await model.unpair() } }
                     Button("Cancel", role: .cancel) {}
                 } message: { Text("Notes between you will be deleted for both of you.") }
+                .confirmationDialog("Block your partner?", isPresented: $confirmBlock, titleVisibility: .visible) {
+                    Button("Block and report", role: .destructive) { Task { await model.block(report: true) } }
+                    Button("Block only", role: .destructive) { Task { await model.block(report: false) } }
+                    Button("Cancel", role: .cancel) {}
+                } message: { Text("You'll be unpaired and can't pair with them again. Reporting shares their last notes with us for review.") }
                 .alert("Delete my data?", isPresented: $confirmDelete) {
                     Button("Delete", role: .destructive) { Task { await model.deleteAccount() } }
                     Button("Cancel", role: .cancel) {}

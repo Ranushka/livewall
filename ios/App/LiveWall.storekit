@@ -1,0 +1,20 @@
+{
+  "identifier": "LIVEWALL1",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "6740000001",
+      "localizations": [
+        { "description": "Unlimited live wallpapers", "displayName": "Unlock LiveWall", "locale": "en_US" }
+      ],
+      "productID": "com.example.livewall.unlock",
+      "referenceName": "Unlock",
+      "type": "NonConsumable"
+    }
+  ],
+  "settings": {},
+  "subscriptionGroups": [],
+  "version": { "major": 3, "minor": 0 }
+}

@@ -3,7 +3,8 @@
 Live wallpaper maker + partner notes on the Lock Screen.
 
 - `worker/` — Cloudflare Worker + D1 backend (pairing, notes, APNs push). `cd worker && pnpm install && pnpm test`
-- `ios/` — Swift app, widget and notification extension (coming)
+- `ios/` — Swift app, widget and notification extension (see ios/README.md)
+- `docs/` — privacy policy and support pages (host on GitHub Pages or Cloudflare Pages; fill in [DATE] and [SUPPORT EMAIL])
 
 ## Backend API
 All routes except `/register` need `Authorization: Bearer <userId>.<secret>`.

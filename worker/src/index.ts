@@ -104,7 +104,11 @@ export async function handle(req: Request, env: Env, ctx: Pick<ExecutionContext,
       const owner = row && row.owner_id !== user.id
         ? await env.DB.prepare("SELECT id, pair_id FROM users WHERE id = ?").bind(row.owner_id).first<{ id: string; pair_id: string | null }>()
         : null;
-      if (!owner || owner.pair_id) {
+      const blocked = owner
+        ? await env.DB.prepare("SELECT 1 FROM blocks WHERE (blocker_id = ? AND blocked_id = ?) OR (blocker_id = ? AND blocked_id = ?)")
+            .bind(user.id, owner.id, owner.id, user.id).first()
+        : null;
+      if (!owner || owner.pair_id || blocked) {
         await env.DB.prepare("INSERT INTO join_attempts (user_id, at) VALUES (?, ?)").bind(user.id, now).run();
         return err(404, "code not found or expired");
       }
@@ -120,6 +124,26 @@ export async function handle(req: Request, env: Env, ctx: Pick<ExecutionContext,
 
     case "DELETE /pair": {
       if (user.pair_id) await dissolvePair(env, user.pair_id);
+      return json({ ok: true });
+    }
+
+    case "POST /block": {
+      // Blocks the partner (optionally reporting them), unpairs, and prevents re-pairing.
+      const body = await readJson(req);
+      const partnerId = await partnerOf(env, user);
+      if (!user.pair_id || !partnerId) return err(409, "not paired");
+      const now = Date.now();
+      if (body.report === true) {
+        const { results } = await env.DB.prepare(
+          "SELECT text FROM notes WHERE pair_id = ? AND sender_id = ? ORDER BY created_at DESC LIMIT 10")
+          .bind(user.pair_id, partnerId).all<{ text: string }>();
+        const reason = typeof body.reason === "string" ? body.reason.slice(0, 500) : "";
+        await env.DB.prepare("INSERT INTO reports (id, reporter_id, reported_id, reason, last_notes, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+          .bind(randomHex(16), user.id, partnerId, reason, JSON.stringify(results.map((r) => r.text)), now).run();
+      }
+      await env.DB.prepare("INSERT OR IGNORE INTO blocks (blocker_id, blocked_id, created_at) VALUES (?, ?, ?)")
+        .bind(user.id, partnerId, now).run();
+      await dissolvePair(env, user.pair_id);
       return json({ ok: true });
     }
 
@@ -153,6 +177,7 @@ export async function handle(req: Request, env: Env, ctx: Pick<ExecutionContext,
       await env.DB.batch([
         env.DB.prepare("DELETE FROM pair_codes WHERE owner_id = ?").bind(user.id),
         env.DB.prepare("DELETE FROM join_attempts WHERE user_id = ?").bind(user.id),
+        env.DB.prepare("DELETE FROM blocks WHERE blocker_id = ?").bind(user.id),
         env.DB.prepare("DELETE FROM users WHERE id = ?").bind(user.id),
       ]);
       return json({ ok: true });

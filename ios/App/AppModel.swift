@@ -68,6 +68,7 @@ final class AppModel: ObservableObject {
         await run { try await self.api.sendNote(text); ok = true; await self.refresh() }
         return ok
     }
+    func block(report: Bool) async { await run { try await self.api.block(report: report); self.code = nil; await self.refresh() } }
     func unpair() async { await run { try await self.api.unpair(); self.code = nil; await self.refresh() } }
     func deleteAccount() async {
         await run {
