@@ -30,6 +30,7 @@ struct LiveWallApp: App {
                 .environmentObject(store)
                 .task { await store.start() }
                 .task { await model.start() }
+                .onOpenURL { url in if url.isFileURL { Task { await WallpaperMaker.shared.receive(fileURL: url) } } }
                 .onChange(of: phase) { _, p in if p == .active { Task { await model.refresh() } } }
         }
     }

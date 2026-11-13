@@ -26,6 +26,12 @@ targets:
         UILaunchScreen: {}
         UIBackgroundModes: [remote-notification]
         CFBundleDisplayName: LiveWall
+        NSPhotoLibraryAddUsageDescription: LiveWall saves your wallpaper to Photos as a Live Photo.
+        LSSupportsOpeningDocumentsInPlace: false
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Video
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [public.movie]
     dependencies:
       - target: LiveWallWidget
       - target: LiveWallNSE
