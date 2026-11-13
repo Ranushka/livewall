@@ -3,5 +3,5 @@ import { env } from "cloudflare:workers";
 import { beforeAll } from "vitest";
 
 beforeAll(async () => {
-  await applyD1Migrations(env.DB, (env as any).MIGRATIONS);
+  await applyD1Migrations(env.DB, env.MIGRATIONS);
 });
