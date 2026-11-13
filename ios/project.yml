@@ -1,11 +1,11 @@
 name: LiveWall
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.ranu
   deploymentTarget: { iOS: "17.0" }
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    DEVELOPMENT_TEAM: ""   # set your Apple Team ID
+    DEVELOPMENT_TEAM: MB7JU86DPQ   # Personal Team (free); replace with paid team for push
 targets:
   LiveWall:
     type: application
@@ -14,12 +14,12 @@ targets:
       - path: App
         excludes: ["LiveWall.storekit"]
       - Shared
-    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.example.livewall } }
+    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.ranu.livewall } }
     entitlements:
       path: App/LiveWall.entitlements
       properties:
         aps-environment: development
-        com.apple.security.application-groups: [group.com.example.livewall]
+        com.apple.security.application-groups: [group.com.ranu.livewall]
     info:
       path: App/Info.plist
       properties:
@@ -39,11 +39,11 @@ targets:
     type: app-extension
     platform: iOS
     sources: [Widget, Shared]
-    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.example.livewall.widget } }
+    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.ranu.livewall.widget } }
     entitlements:
       path: Widget/Widget.entitlements
       properties:
-        com.apple.security.application-groups: [group.com.example.livewall]
+        com.apple.security.application-groups: [group.com.ranu.livewall]
     info:
       path: Widget/Info.plist
       properties:
@@ -53,11 +53,11 @@ targets:
     type: app-extension
     platform: iOS
     sources: [NSE, Shared]
-    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.example.livewall.nse } }
+    settings: { base: { PRODUCT_BUNDLE_IDENTIFIER: com.ranu.livewall.nse } }
     entitlements:
       path: NSE/NSE.entitlements
       properties:
-        com.apple.security.application-groups: [group.com.example.livewall]
+        com.apple.security.application-groups: [group.com.ranu.livewall]
     info:
       path: NSE/Info.plist
       properties:

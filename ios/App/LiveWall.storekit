@@ -9,7 +9,7 @@
       "localizations": [
         { "description": "Unlimited live wallpapers", "displayName": "Unlock LiveWall", "locale": "en_US" }
       ],
-      "productID": "com.example.livewall.unlock",
+      "productID": "com.ranu.livewall.unlock",
       "referenceName": "Unlock",
       "type": "NonConsumable"
     }

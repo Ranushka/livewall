@@ -6,6 +6,6 @@
   "d1_databases": [
     { "binding": "DB", "database_name": "livewall", "database_id": "47f9f117-fb08-4154-8061-8d281a39e656", "migrations_dir": "migrations" }
   ],
-  "vars": { "APNS_HOST": "https://api.sandbox.push.apple.com", "APNS_TOPIC": "com.example.livewall" }
+  "vars": { "APNS_HOST": "https://api.sandbox.push.apple.com", "APNS_TOPIC": "com.ranu.livewall" }
   // Secrets (wrangler secret put): APNS_KEY (contents of the .p8), APNS_KEY_ID, APNS_TEAM_ID
 }

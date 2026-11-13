@@ -4,7 +4,7 @@ import SwiftUI
 /// 2 free wallpapers, then a one-time non-consumable unlock. Partner notes are never gated.
 @MainActor
 final class Store: ObservableObject {
-    static let productID = "com.example.livewall.unlock"
+    static let productID = "com.ranu.livewall.unlock"
     static let freeLimit = 2
     private static let countKey = "wallpapersMade"
 

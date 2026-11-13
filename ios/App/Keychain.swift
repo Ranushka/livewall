@@ -4,7 +4,7 @@ import Security
 enum Keychain {
     private static func query(_ key: String) -> [String: Any] {
         [kSecClass as String: kSecClassGenericPassword,
-         kSecAttrService as String: "com.example.livewall",
+         kSecAttrService as String: "com.ranu.livewall",
          kSecAttrAccount as String: key]
     }
     static func get(_ key: String) -> Data? {

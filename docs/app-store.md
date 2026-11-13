@@ -35,7 +35,7 @@ Primary: Photo & Video. Secondary: Lifestyle.
 Answer "No" to all content questions, except **User-generated content / messaging** (notes between two paired users): expect 12+ (or 17+ if Apple's questionnaire requires it for unmoderated chat). Have block and report in place (done).
 
 ## In-App Purchase
-- Type: Non-consumable. Product ID `com.example.livewall.unlock`. Price tier: $2.99.
+- Type: Non-consumable. Product ID `com.ranu.livewall.unlock`. Price tier: $2.99.
 - Display name: Unlock LiveWall. Description: Unlimited live wallpapers.
 - Review screenshot: the paywall screen.
 

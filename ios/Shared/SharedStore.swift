@@ -2,7 +2,7 @@ import Foundation
 
 /// Data shared between the app, the widget and the notification extension via the App Group.
 enum Shared {
-    static let group = "group.com.example.livewall"
+    static let group = "group.com.ranu.livewall"
     private static let key = "latestNote"
     private static var defaults: UserDefaults { UserDefaults(suiteName: group) ?? .standard }
 
