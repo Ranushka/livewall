@@ -1,0 +1,11 @@
+{
+  "name": "livewall",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "livewall", "database_id": "REPLACE_AFTER_d1_create", "migrations_dir": "migrations" }
+  ],
+  "vars": { "APNS_HOST": "https://api.sandbox.push.apple.com", "APNS_TOPIC": "com.example.livewall" }
+  // Secrets (wrangler secret put): APNS_KEY (contents of the .p8), APNS_KEY_ID, APNS_TEAM_ID
+}
